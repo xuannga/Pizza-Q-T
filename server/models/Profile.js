@@ -18,7 +18,8 @@ const profileSchema = new Schema({
     type: String,
     required: true,
     minlength: 5,
-  }
+  },
+  pastorders: [Order.schema]
 });
 
 // set up pre-save middleware to create password
