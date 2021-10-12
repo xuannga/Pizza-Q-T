@@ -7,15 +7,17 @@ const historySchema = new Schema(
       default: Date.now,
       required: true
     },
+    // From orders or kitchen
     pizzaSold: {
       type: Number,
       required: true
     },
-    // Unused capacity ... how many more pizza could you make
+    // From kitchen
     ontimeOrders: {
       type: Number,
       required: true
     },
+  // Coming from orders
     revenue: {
       type: Number,
       required: true

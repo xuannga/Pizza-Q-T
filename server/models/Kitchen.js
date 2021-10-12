@@ -3,15 +3,18 @@ const { Schema, model } = require('mongoose');
 const kitchenSchema = new Schema(
   {
     date: {
+      // day resolution not hour
       type: Date,
       default: Date.now,
       required: true
     },
-    prelimqueue:[{Date,String}],
-    pizzaqueue: [{Date,String}],
-    // Could these two be redundant, add field of status/location
-    pizzaintheoven: [{Date,String}],
-    pizzacompleted:[{Date,String}],
+    // queue ordernumber, timestamp entry, status
+    queue: [{
+      orderId: {type: Number}, // linked to orders
+      priority: {type: Number},
+      status: {type:String}  // prelim, active, in-oven, cancel, complete
+    }],
+
     orders: [
       {
         type: Schema.Types.ObjectId,

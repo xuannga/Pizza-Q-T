@@ -38,3 +38,8 @@ possible to due in the destinations of interest.
 - Setup Github,Heroku => Na N. 
 5) DB stood up -> George M. 10/3
 
+------------------
+
+1) Model Orders => Rob
+2) Model Profile => Na
+3) Model History, Kitchen => George
