@@ -10,6 +10,7 @@ const kitchenSchema = new Schema(
     },
     // queue ordernumber, timestamp entry, status
     queue: [{
+      lastupdated: {type: Date},
       orderId: {type: Number}, // linked to orders
       priority: {type: Number},
       status: {type:String}  // prelim, active, in-oven, cancel, complete
