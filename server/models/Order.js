@@ -19,6 +19,11 @@ const orderSchema = new Schema(
       required: true,
       trim: true
     },
+    price:{
+      type: Number,
+      required: true,
+      trim: true
+    },
     
     pizzaorder:  [pizzaorderSchema],
     
@@ -30,6 +35,11 @@ const orderSchema = new Schema(
     commitTime:{
       type: Date,
       required: true
+    },
+    status:{
+        type: String,
+        required: true,
+        trim: true
     }
   },
   {timestamps : true}

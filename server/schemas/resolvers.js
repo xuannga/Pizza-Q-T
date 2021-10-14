@@ -35,12 +35,14 @@ const resolvers = {
     updateorder:  // user can change the order,
     login:   // by user
     cancelorder:  // by user
-    updatequeue: // kitchen updates, adds, deletes
+    updatequeue: 
+    logout: // Do we need? How is accomplished
     //   addSchool: async (parent, { name, location, studentCount }) => {
   //     // Create and return the new School object
   //     return await School.create({ name, location, studentCount });
   //   }
   // }
+  }
 };
 
 module.exports = resolvers;

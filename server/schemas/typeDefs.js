@@ -1,16 +1,24 @@
 
 const { gql } = require('apollo-server-express');
-const pizzaorderSchema = require('../models/PizzaOrder');
 const typeDefs = gql`
 
+type PizzaOrder{
+  _id:ID!
+  quantity: Number!
+  size: String!
+  toppings: String!
+  crust: String!
+}
   type Order {
     _id: ID
     name: String
     phone: String
-    pizzaorder:[pizzaorderSchema]
+    pizzaorder:[PizzaOrder]
     date: Date
     requestime: Date
     commitTime: Date
+    price: Number!
+    status: String
   }
 
   type Profile {
