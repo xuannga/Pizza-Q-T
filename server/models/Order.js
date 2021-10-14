@@ -1,5 +1,6 @@
 const { time } = require('console');
 const { Schema, model } = require('mongoose');
+const pizzaorderSchema = require('./PizzaOrder');
 
 const orderSchema = new Schema(
   {
@@ -20,6 +21,11 @@ const orderSchema = new Schema(
       trim: true,npm 
       match: ^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$
     },
+    price:{
+      type: Number,
+      required: true,
+      trim: true
+    },
     
     pizzaorder:  {
       quantity: {type: Number, default: 1, require: true},
@@ -32,6 +38,7 @@ const orderSchema = new Schema(
     requestime:{
       price:{type:Number,require:true, trim:true}
       },
+    pizzaorder:  [pizzaorderSchema],
     
     requestTime:{
       type: Date,
@@ -41,6 +48,11 @@ const orderSchema = new Schema(
     commitTime:{
       type: Date,
       required: true
+    },
+    status:{
+        type: String,
+        required: true,
+        trim: true
     }
   },
   {timestamps : true}

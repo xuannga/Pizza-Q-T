@@ -1,15 +1,14 @@
 
 const { gql } = require('apollo-server-express');
-
 const typeDefs = gql`
-  
-  type Profile {
-    _id: ID
-    name: String
-    email: String
-    password: String
-  }
 
+type PizzaOrder{
+  _id:ID!
+  quantity: Number!
+  size: String!
+  toppings: String!
+  crust: String!
+}
   type Order {
     _id: ID
     name: String
@@ -21,15 +20,26 @@ const typeDefs = gql`
     crust: String
     price: Number
     date: Date,
+    pizzaorder:[PizzaOrder]
+    date: Date
     requestime: Date
+    commitTime: Date
+    price: Number!
+    status: String
   }
 
-  type Kitchen {
+  type Profile {
     _id: ID
     name: String
-    building: String
-    creditHours: Int
-    professor: Professor
+    email: String
+    password: String
+    pastorders : [Order]
+  }
+  type Kitchen {
+    _id: ID
+    date: Date
+    queue: [String]
+    orders:[Order]
   }
 
   type History {

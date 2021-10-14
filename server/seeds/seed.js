@@ -17,7 +17,7 @@ db.once('open', async () => {
   // const kitchen = await Kitchen.insertMany(kitchenData);
   const orders = await Order.insertMany(orderData);
   const users = await Profile.insertMany(profileData);
-
+  const users = await Kitchen.insertMany(kitchenData);
   // const history = await History.insertMany(historyData);
 
   // for (newClass of classes) {
