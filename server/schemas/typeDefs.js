@@ -14,7 +14,12 @@ const typeDefs = gql`
     _id: ID
     name: String
     phone: String
-    pizzaorder: String,
+    pizzaorder: String
+    quantity: Number
+    size: String
+    toppings: String
+    crust: String
+    price: Number
     date: Date,
     requestime: Date
   }

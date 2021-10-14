@@ -3,11 +3,12 @@ const { Schema, model } = require('mongoose');
 
 const orderSchema = new Schema(
   {
-  //   date: {
-  //   type: Date,
-  //   default: Date.now,
-  //   required: true
-  // },
+    date: {
+    type: Date,
+    // get minutes by passing through to the javascript function itself
+    default: Date.now,
+    required: true
+  },
     name: {
       type: String,
       required: true,
@@ -16,14 +17,16 @@ const orderSchema = new Schema(
     phone: {
       type: Number,
       required: true,
-      trim: true
+      trim: true,npm 
+      match: ^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$
     },
     
     pizzaorder:  {
       quantity: {type: Number, default: 1, require: true},
       size: { type: String, require: true, trim: true},
       toppings:{type:  String, require: true, trim: true},
-      crust: {type: String, require: true, trim: true}
+      crust: {type: String, require: true, trim: true},
+      price: [type: Number, match:^\d{0,8}(\.\d{1,4})?$]
       }
     ,
     requestime:{
