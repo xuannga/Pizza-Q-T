@@ -1,5 +1,6 @@
 const { time } = require('console');
 const { Schema, model } = require('mongoose');
+const pizzaorderSchema = require('./PizzaOrder');
 
 const orderSchema = new Schema(
   {
@@ -19,13 +20,7 @@ const orderSchema = new Schema(
       trim: true
     },
     
-    pizzaorder:  {
-      quantity: {type: Number, default: 1, require: true},
-      size: { type: String, require: true, trim: true},
-      toppings:{type:  String, require: true, trim: true},
-      crust: {type: String, require: true, trim: true},
-      price:{type:Number,require:true, trim:true}
-      },
+    pizzaorder:  [pizzaorderSchema],
     
     requestTime:{
       type: Date,
