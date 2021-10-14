@@ -6,7 +6,6 @@ const orderSchema = new Schema(
   {
     date: {
     type: Date,
-    // get minutes by passing through to the javascript function itself
     default: Date.now,
     required: true
   },
@@ -18,8 +17,7 @@ const orderSchema = new Schema(
     phone: {
       type: Number,
       required: true,
-      trim: true,npm 
-      match: ^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$
+      trim: true
     },
     price:{
       type: Number,
@@ -27,17 +25,6 @@ const orderSchema = new Schema(
       trim: true
     },
     
-    pizzaorder:  {
-      quantity: {type: Number, default: 1, require: true},
-      size: { type: String, require: true, trim: true},
-      toppings:{type:  String, require: true, trim: true},
-      crust: {type: String, require: true, trim: true},
-      price: [type: Number, match:^\d{0,8}(\.\d{1,4})?$]
-      }
-    ,
-    requestime:{
-      price:{type:Number,require:true, trim:true}
-      },
     pizzaorder:  [pizzaorderSchema],
     
     requestTime:{
