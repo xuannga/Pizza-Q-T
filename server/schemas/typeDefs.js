@@ -1,30 +1,38 @@
 
 const { gql } = require('apollo-server-express');
-
 const typeDefs = gql`
-  
+
+type PizzaOrder{
+  _id:ID!
+  quantity: Number!
+  size: String!
+  toppings: String!
+  crust: String!
+}
+  type Order {
+    _id: ID
+    name: String
+    phone: String
+    pizzaorder:[PizzaOrder]
+    date: Date
+    requestime: Date
+    commitTime: Date
+    price: Number!
+    status: String
+  }
+
   type Profile {
     _id: ID
     name: String
     email: String
     password: String
+    pastorders : [Order]
   }
-
-  type Order {
-    _id: ID
-    name: String
-    phone: String
-    pizzaorder: String,
-    date: Date,
-    requestime: Date
-  }
-
   type Kitchen {
     _id: ID
-    name: String
-    building: String
-    creditHours: Int
-    professor: Professor
+    date: Date
+    queue: [String]
+    orders:[Order]
   }
 
   type History {
