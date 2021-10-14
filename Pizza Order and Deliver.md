@@ -22,15 +22,16 @@ Friday Night is Pizza night and we want our delivery on time !  As a small time 
 3. IndexDB implementation to enable offline functionality.
 
 4. Features (MVP unless otherwise noted) :
-- MERN application
-- Order and Confirm feature
-- Schedule orders FIFO using queue
-- Store Order and Production document(s) in History at end of the 3 hour shift.  Standard process time based on queue.
-- JWT authentication - George M.
-- Payment Platform - Na.
-- IndexDB (nice to have)
-- Order status feature - text/email notification (nice to have)
-- Delivery Options (nice to have)
+- MERN application (GraphQL with Redux?)
+- Order and Confirm feature (feature not MVP)
+- Accept order and return pickup time (MVP)
+- Schedule orders FIFO using queue (10 min   build x orders infront of you - MVP)
+- Archive Order and Production document(s) in History at end of the 3 hour shift.  Standard process time based on queue. (MVP)
+- JWT authentication - George M. - done
+- Payment Platform - Na. - (feature, not MVP)
+- IndexDB (nice to have, not MVP)
+- Order status feature - text/email notification (nice to have, not MVP)
+- Delivery Options (nice to have, no)
 
 ## Schema
 ### 1. Order Document
@@ -47,7 +48,7 @@ Friday Night is Pizza night and we want our delivery on time !  As a small time 
 - Confirmation Ready Time
 - Order Status (Prelim, InProgress, Complete)
 
-### 2. Production Document
+### 2. Kitchen Document
 - _id
 - order id (reference)
 - Date
@@ -61,6 +62,12 @@ Friday Night is Pizza night and we want our delivery on time !  As a small time 
 - Total Orders completed
 - Ontime Performance
 - Orders Declined
+
+### 4. Profile Document (User document)
+-id
+-username
+-email
+-password
 
 ##  Logistics
 - Queue is FIFO 
@@ -78,9 +85,8 @@ Friday Night is Pizza night and we want our delivery on time !  As a small time 
 # Pages
 Client-side
 1. Menu/order page
-2. Directions and Contacts
-3. Payment 
+2. Login
+3. Kitchen 
 4. Sign-In (guest or member) ??
 
-Kitchen
-1. Scheduler
+

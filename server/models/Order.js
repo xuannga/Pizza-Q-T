@@ -30,9 +30,18 @@ const orderSchema = new Schema(
       }
     ,
     requestime:{
+      price:{type:Number,require:true, trim:true}
+      },
+    
+    requestTime:{
+      type: Date,
+      required: false
+    }, 
+    // this will come from the kitchen
+    commitTime:{
       type: Date,
       required: true
-    },
+    }
   },
   {timestamps : true}
 );
