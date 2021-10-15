@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const pizzaorderSchema = require('./PizzaOrder')
 
 const profileSchema = new Schema({
   name: {
@@ -19,7 +20,7 @@ const profileSchema = new Schema({
     required: true,
     minlength: 5,
   },
-  pastorders: [Order.schema]
+  pastorders: [pizzaorderSchema]
 });
 
 // set up pre-save middleware to create password
