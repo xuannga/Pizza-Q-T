@@ -1,8 +1,7 @@
-
 const { gql } = require('apollo-server-express');
-const typeDefs = gql`
+const typeDefs = gql `
 
-type PizzaOrder{
+input PizzaOrder{
   _id:ID!
   quantity: Number!
   size: String!
@@ -21,13 +20,14 @@ type PizzaOrder{
     status: String
   }
 
-  type Profile {
+  input Profile {
     _id: ID
     name: String
     email: String
     password: String
     pastorders : [Order]
   }
+  
   type Kitchen {
     _id: ID
     date: Date
