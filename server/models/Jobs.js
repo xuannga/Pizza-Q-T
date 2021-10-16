@@ -8,7 +8,8 @@ const jobSchema = new Schema(
     orderId: {type: Schema.Types.ObjectId,
             ref: 'Order'}, // linked to orders,linked referen
     priority: {type: Number},
-    status: {type:String}  // prelim, active, in-oven, cancel, complete
+    status: {type:String},  // prelim, active, in-oven, cancel, complete
+    quantity: {type: Number}
   }
 );
 
