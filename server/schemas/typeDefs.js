@@ -44,6 +44,11 @@ input PizzaOrder{
     classes: [Class]
   }
 
+  type Auth {
+    token: ID
+    user: User
+  }
+
   type Query {
     orders: [Order]   # provide orders in order
     kitchen: Kitchen  # provide the queue and delivery schedule
@@ -52,14 +57,11 @@ input PizzaOrder{
     order(id: ID!): Order  # fetch individual order
   }
 
-  # Define which mutations the client is allowed to make
   type Mutation {
-    # Set the required fields for new schools
-    addOrder(name: String!, phone: String!, pizzaorder: Int!, date: Date!,requestime: Date! ): Order
-    closeOrder()   # complete order status
-    updateOrder()  # change order, cancel , add quantity, ...
-    updateKitchen() # queue updates as pizzas go in oven, out of oven
-    acceptOrderfromKitchen() # respond to user on order acceptance
+    createUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addOrder(order: [ID]!): Order
+    updateOrder(_id: ID!, order: Int!): Order
+    login(email: String!, password: String!): Auth
   }
 `;
 

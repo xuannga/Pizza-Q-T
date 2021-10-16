@@ -25,9 +25,12 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        // updateorder: async(parent, {}) => {
+        updateorder: async(parent, { _id, order }) => {
+            const decrement = Math.abs(order) * -1;
 
-        // },
+            return await Order.findByIdAndUpdate(_id, { $inc: { order: decrement } }, { new: true });
+
+        },
         addorder: async(parent, { order }, context) => {
             if (context.user) {
                 const newOrder = new Order({ order });
@@ -39,13 +42,14 @@ const resolvers = {
 
             throw new AuthenticationError('Not logged in');
         },
-        cancelorder: async(parent, {}, context) => {
-            if (context.user) {
-                const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
-            }
+        // cancelorder: async(parent, {}, context) => {
+        //     if (context.user) {
+        //         const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
 
-            return updatedUser;
-        }
+        //         return updatedUser;
+        //     }
+        //     throw new AuthenticationError('Not logged in');
+        // }
     }
 };
 
