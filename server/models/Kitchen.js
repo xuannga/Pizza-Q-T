@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const jobSchema = require('./Jobs');
 
 const kitchenSchema = new Schema(
   {
@@ -9,19 +10,7 @@ const kitchenSchema = new Schema(
       required: true
     },
     // queue ordernumber, timestamp entry, status
-    queue: [{
-      lastupdated: {type: Date},
-      orderId: {type: Number}, // linked to orders
-      priority: {type: Number},
-      status: {type:String}  // prelim, active, in-oven, cancel, complete
-    }],
-
-    orders: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Order'
-      }
-    ]
+    queue: [jobSchema],
   }
 );
 

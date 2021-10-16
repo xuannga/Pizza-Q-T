@@ -1,6 +1,7 @@
 const { History, Kitchen, Profile, Order, PizzaOrder } = require('../models');
 
 const resolvers = {
+ 
 
     // Define the functions that will fulfill the mutations
     Mutation: {
@@ -33,21 +34,24 @@ const resolvers = {
             if (context.user) {
                 const newOrder = new Order({ order });
 
-                await Profile.findByIdAndUpdate(context.user._id, { $push: { orders: newOrder } });
+               const neworder= await Order.create(newOrder);
 
-                return newOrder;
+                return neworder;
             }
 
             throw new AuthenticationError('Not logged in');
         },
-        cancelorder: async(parent, {}, context) => {
-            if (context.user) {
-                const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
-            }
+//         cancelorder: async(parent, {}, context) => {
+//             if (context.user) {
+//                 const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
+//             }
 
-            return updatedUser;
-        }
+//             return updatedUser;
+//         }
     }
+  
+  }
+ 
 };
 
 module.exports = resolvers;
