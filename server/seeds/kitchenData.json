@@ -5,25 +5,29 @@
             "lastupdated": "2021-09-29 04:44:21.328Z",
             "orderId": "616907aae00c978118f0ca75",
             "priority": 1634243786651,
-            "status": "prelim"
+            "status": "prelim",
+            "quantity":1
         },
         {
             "lastupdated": "2021-09-29 04:44:21.328Z",
             "orderId": "616907aae00c978118f0ca77",
             "priority": 1634243786478,
-            "status": "active"
+            "status": "active",
+            "quantity":2
         },
         {
             "lastupdated": "2021-09-29 04:44:21.328Z",
             "orderId": "616907aae00c978118f0ca79",
             "priority": 1634243786111,
-            "status": "in-oven"
+            "status": "in-oven",
+            "quantity":2
         },
         {
             "lastupdated": "2021-09-29 04:44:21.328Z",
             "orderId": "616907aae00c978118f0ca7b",
             "priority": 1634243786154,
-            "status": "complete"
+            "status": "complete",
+            "quantity":1
         }
     ]
 }

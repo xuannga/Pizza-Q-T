@@ -18,9 +18,9 @@
   { "_id":"616907aae00c978118f0ca77",
     "name": "Slyvia Hampton",
     "phone": 3606509494,
-    "price": 23.00,
+    "price": 42.00,
     "pizzaorder": {
-      "quantity": 1,
+      "quantity": 2,
       "size": "large",
       "toppings": "Cheese, Tomatoes",
       "crust": "thick"
@@ -32,9 +32,9 @@
     "_id":"616907aae00c978118f0ca79",
     "name": "Eleanor Rigsby",
     "phone": 3607708934,
-    "price": 21.00,
+    "price": 42.00,
     "pizzaorder": {
-      "quantity": 1,
+      "quantity": 2,
       "size": "large",
       "toppings": "Cheese, Vegetables",
       "crust": "thick"
