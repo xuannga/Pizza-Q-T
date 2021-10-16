@@ -1,7 +1,6 @@
 const { History, Kitchen, Profile, Order, PizzaOrder } = require('../models');
 
 const resolvers = {
-
     Mutation: {
         createUser: async(parent, args) => {
             const user = await Profile.create(args);
@@ -35,22 +34,24 @@ const resolvers = {
             if (context.user) {
                 const newOrder = new Order({ order });
 
-                await Profile.findByIdAndUpdate(context.user._id, { $push: { orders: newOrder } });
+                const neworder = await Order.create(newOrder);
 
-                return newOrder;
+                return neworder;
             }
 
             throw new AuthenticationError('Not logged in');
         },
-        // cancelorder: async(parent, {}, context) => {
-        //     if (context.user) {
-        //         const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
+        //         cancelorder: async(parent, {}, context) => {
+        //             if (context.user) {
+        //                 const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
+        //             }
 
-        //         return updatedUser;
-        //     }
-        //     throw new AuthenticationError('Not logged in');
-        // }
+        //             return updatedUser;
+        //         }
+
+
     }
+
 };
 
 module.exports = resolvers;
