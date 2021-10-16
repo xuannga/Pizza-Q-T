@@ -41,6 +41,14 @@ const resolvers = {
 
             throw new AuthenticationError('Not logged in');
         },
+        updateProfile: async(parent, args, context) => {
+            if (context.user) {
+                return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+            }
+
+            throw new AuthenticationError('Not logged in');
+        },
+
         //         cancelorder: async(parent, {}, context) => {
         //             if (context.user) {
         //                 const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
