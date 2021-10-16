@@ -1,23 +1,24 @@
+ 
 const db = require('../config/connection');
-const { Kitchen , Order, History, Profile } = require('../models');
+const { PizzaOrder, Kitchen , Order, History, Profile , Jobs} = require('../models');
 
 const orderData = require('./orderData.json');
 const kitchenData = require('./kitchenData.json');
 const historyData = require('./historyData.json');
-const profileData = require('./profileData.json');
+ const profileData = require('./profileData.json');
  
 db.once('open', async () => {
   // clean database
   await Kitchen.deleteMany({});
   await Order.deleteMany({});
-  await History.deleteMany({});
+  // await History.deleteMany({});
   await Profile.deleteMany({});
 
   // bulk create each model
   // const kitchen = await Kitchen.insertMany(kitchenData);
   const orders = await Order.insertMany(orderData);
   const users = await Profile.insertMany(profileData);
-  const users = await Kitchen.insertMany(kitchenData);
+  const kitchen = await Kitchen.insertMany(kitchenData);
   // const history = await History.insertMany(historyData);
 
   // for (newClass of classes) {

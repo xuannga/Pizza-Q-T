@@ -2,7 +2,6 @@ const { History, Kitchen, Profile, Order, PizzaOrder } = require('../models');
 
 const resolvers = {
 
-    // Define the functions that will fulfill the mutations
     Mutation: {
         createUser: async(parent, args) => {
             const user = await Profile.create(args);
