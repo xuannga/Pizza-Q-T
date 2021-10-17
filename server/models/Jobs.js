@@ -7,9 +7,10 @@ const jobSchema = new Schema(
     lastupdated: {type: Date},
     orderId: {type: Schema.Types.ObjectId,
             ref: 'Order'}, // linked to orders,linked referen
-    priority: {type: Number},
+    priority: {type: Number}, // ordercreatedAt time stamp in milliseconds
     status: {type:String},  // prelim, active, in-oven, cancel, complete
-    quantity: {type: Number}
+    quantity: {type: Number},
+    commitTime: {type:Date}
   }
 );
 
