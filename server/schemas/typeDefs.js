@@ -28,11 +28,19 @@ input PizzaOrder{
     pastorders : [Order]
   }
   
+  type Job {
+     lastupdate: Date
+     orderId: ID
+     priority: Int
+     status: String
+     quantity: Int
+     commitTime: Date
+  }
   type Kitchen {
     _id: ID
     date: Date
-    queue: [String]
-    orders:[Order]
+    queue: [Job]
+  # orders:[Order]
   }
 
   type History {
