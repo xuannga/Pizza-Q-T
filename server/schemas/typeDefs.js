@@ -1,8 +1,7 @@
-
 const { gql } = require('apollo-server-express');
-const typeDefs = gql`
+const typeDefs = gql `
 
-type PizzaOrder{
+input PizzaOrder{
   _id:ID!
   quantity: Number!
   size: String!
@@ -21,18 +20,27 @@ type PizzaOrder{
     status: String
   }
 
-  type Profile {
+  input Profile {
     _id: ID
     name: String
     email: String
     password: String
     pastorders : [Order]
   }
+  
+  type Job {
+     lastupdate: Date
+     orderId: ID
+     priority: Int
+     status: String
+     quantity: Int
+     commitTime: Date
+  }
   type Kitchen {
     _id: ID
     date: Date
-    queue: [String]
-    orders:[Order]
+    queue: [Job]
+  # orders:[Order]
   }
 
   type History {
@@ -44,6 +52,11 @@ type PizzaOrder{
     classes: [Class]
   }
 
+  type Auth {
+    token: ID
+    user: User
+  }
+
   type Query {
     orders: [Order]   # provide orders in order
     kitchen: Kitchen  # provide the queue and delivery schedule
@@ -52,14 +65,11 @@ type PizzaOrder{
     order(id: ID!): Order  # fetch individual order
   }
 
-  # Define which mutations the client is allowed to make
   type Mutation {
-    # Set the required fields for new schools
-    addOrder(name: String!, phone: String!, pizzaorder: Int!, date: Date!,requestime: Date! ): Order
-    closeOrder()   # complete order status
-    updateOrder()  # change order, cancel , add quantity, ...
-    updateKitchen() # queue updates as pizzas go in oven, out of oven
-    acceptOrderfromKitchen() # respond to user on order acceptance
+    createUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addOrder(order: [ID]!): Order
+    updateOrder(_id: ID!, order: Int!): Order
+    login(email: String!, password: String!): Auth
   }
 `;
 

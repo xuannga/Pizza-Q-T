@@ -1,39 +1,65 @@
-const { School, Class, Professor } = require('../models');
+const { History, Kitchen, Profile, Order, PizzaOrder } = require('../models');
 
 const resolvers = {
-  Query: {
-     
-     order:  {},//single order - kitchen},
+    Mutation: {
+        createUser: async(parent, args) => {
+            const user = await Profile.create(args);
+            const token = signToken(user);
 
-     getorders:  { },// get all active orders, by status - kitchen},
+            return { token, user };
+        },
+        login: async(parent, { email, password }) => {
+            const user = await Profile.findOne({ email });
 
-     getqueue: {},    // might be same as getorders
+            if (!user) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
 
-     getusers: {},//
+            const correctPw = await user.isCorrectPassword(password);
 
-     me: {},   //  getmy order, history - user
-    // schools: async () => {
-    //   return await School.find({}).populate('classes').populate({
-    //     path: 'classes',
-    //     populate: 'professor'
-    //   });
-    // },
-  },
-  // Define the functions that will fulfill the mutations
-  Mutation: {
-    createuser: {} ,// byuser
-    addorder:  {},// by user
-    updateorder: {}, // user can change the order,
-    login: {},  // by user
-    cancelorder: {}, // by user
-    updatequeue: {},
-    logout: {},// Do we need? How is accomplished
-    //   addSchool: async (parent, { name, location, studentCount }) => {
-  //     // Create and return the new School object
-  //     return await School.create({ name, location, studentCount });
-  //   }
-  // }
-  }
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+
+            const token = signToken(user);
+            return { token, user };
+        },
+        updateorder: async(parent, { _id, order }) => {
+            const decrement = Math.abs(order) * -1;
+
+            return await Order.findByIdAndUpdate(_id, { $inc: { order: decrement } }, { new: true });
+
+        },
+        addorder: async(parent, { order }, context) => {
+            if (context.user) {
+                const newOrder = new Order({ order });
+
+                const neworder = await Order.create(newOrder);
+
+                return neworder;
+            }
+
+            throw new AuthenticationError('Not logged in');
+        },
+        updateProfile: async(parent, args, context) => {
+            if (context.user) {
+                return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+            }
+
+            throw new AuthenticationError('Not logged in');
+        },
+
+        //         cancelorder: async(parent, {}, context) => {
+        //             if (context.user) {
+        //                 const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
+        //             }
+
+        //             return updatedUser;
+        //         }
+
+
+    }
+
 };
 
 module.exports = resolvers;
