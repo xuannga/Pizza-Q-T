@@ -100,7 +100,6 @@ db.once('open', async () => {
         "quantity": newOrder.pizzaorder[0].quantity,
         "status": "active",
         "commitTime":commtTime
-
     }
     
     // Update kitchen page
