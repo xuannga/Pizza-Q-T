@@ -1,12 +1,14 @@
 const db = require('../config/connection');
  
-const { PizzaOrder, Kitchen, Order, History, Profile, Jobs } = require('../models');
+const { PizzaOrder, Kitchen, Order, History, User, Jobs } = require('../models');
 const capacity = 20;
 const avgcooktime = 15;
-const names = ["John Smith", "Eleanor Rigsby", "Slyvia Hampton", "Mickey Mango"]
+const firstNames = ["John", "Eleanor", "Slyvia", "Mickey"]
+const lastNames = ["Smith", "Rigsby", "Hampton", "Mango"]
+
 const ids = ["616907aae00c978118f0ca75", "616907aae00c978118f0ca79", "616907aae00c978118f0ca77", "616907aae00c978118f0ca7b"]
 const phn = [3605551430, 3607708934, 3606509494, 3601234567]
-function statuschangeJobs(queue){
+ function statuschangeJobs(queue){
     let nqueue = [...queue]
     let nnow = Date.now()
     // sort queue
@@ -48,7 +50,7 @@ function createnewOrder() {
     return neworder
 }
 
-function calculatequeuetime(neworder, newqueue) {
+ function calculatequeuetime(neworder, newqueue) {
     let qtime;
     let inprog = newqueue.filter(({ status }) => status !== 'complete').reduce((total, obj) => obj.quantity + total, 0)
     if (inprog < capacity) {
@@ -63,7 +65,7 @@ function calculatequeuetime(neworder, newqueue) {
 
 // Run a seed by entering order ... update Kitchen
 db.once('open', async () => {
-    // randomly create order from existing Profile base
+    // randomly create order from existing User base
     let inputneworder = createnewOrder();
 
     // Load order into Order db 
@@ -88,6 +90,12 @@ db.once('open', async () => {
         { new: true }
     );
 
+    const updateOrder = await Order.findOneAndUpdate(
+        { _id: newOrder._id },
+        {  status: "complete"},
+        { new: true }
+    );
+
     //TODO: Notify customer of commtTime
 
     // Add order to kitchen queue by  first creating job
@@ -109,5 +117,8 @@ db.once('open', async () => {
         { new: true }
     )
 
+
     process.exit(0);
 })
+
+module.exports= {calculatequeuetime, statuschangeJobs}
