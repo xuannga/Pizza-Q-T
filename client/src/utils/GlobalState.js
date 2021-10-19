@@ -19,10 +19,8 @@ const StoreProvider = (props) => {
   return <Provider store={store} {...props}/>
 }
 
-
 const StoreContext = createContext();
  
-
 const useStoreContext = () => {
   return useContext(StoreContext);
 };

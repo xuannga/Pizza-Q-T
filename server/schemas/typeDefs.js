@@ -36,6 +36,10 @@ type Job {
     email: String
     orders: [Order]
   }
+  type Category {
+    _id: ID
+    name: String
+  }
 
 type Kitchen {
   _id: ID
@@ -53,8 +57,8 @@ type Kitchen {
   }
 
   type Query {
-    categories: [String]
-    products(category: ID, name: String): [Product]
+    categories: [Category]
+    products: [Product]
     product(_id: ID!): Product
     user: User
     order(_id: ID!): Order
