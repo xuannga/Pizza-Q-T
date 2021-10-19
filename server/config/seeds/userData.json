@@ -1,12 +1,14 @@
 [
     {
-      "name": "Brian Kernighan",
+      "firstName": "Brian",
+      "lastName": "Kernighan",
       "email": "bkernighan@techfriends.dev",
       "password": "password01",
       "pastorders": []
     },
     {
-      "name": "John Smith",
+      "firstName": "John",
+      "lastName": "Smith",
       "email": "jsmith@mail.dev",
       "password": "password02",
       "pastorders": [{
@@ -17,7 +19,8 @@
       }]
     },
     {
-      "name": "Slyvia Hampton",
+      "firstName": "Slyvia",
+      "lastName": "Hampton",
       "email": "shampton@mail.com",
       "password": "password03",
       "pastorders":[{
@@ -28,7 +31,8 @@
       }]
     },
     {
-      "name": "Eleanor Rigsby",
+      "firstName": "Eleanor",
+      "lastName": "Rigsby",
       "email": "erigsby@mail.dev",
       "password": "password04",
       "pastorders":[{
@@ -39,7 +43,8 @@
       }]
     },
     {
-      "name": "Mickey Mango",
+      "firstName": "Mickey",
+      "lastName": "Mango",
       "email": "mmango@mail.dev",
       "password": "password05",
       "pastorders":[

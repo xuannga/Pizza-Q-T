@@ -1,47 +1,39 @@
-const { time } = require('console');
-const { Schema, model } = require('mongoose');
-const pizzaorderSchema = require('./PizzaOrder');
+const mongoose = require('mongoose');
+
+
+const { Schema } = mongoose;
 
 const orderSchema = new Schema({
-    date: {
-        type: Date,
-        default: Date.now,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    phone: {
-        type: Number,
-        required: true,
-        trim: true
-    },
-    price: {
-        type: Number,
-        required: true,
-        trim: true
-    },
-
-    pizzaorder: [pizzaorderSchema],
-
-    requestTime: {
-        type: Date,
-        required: false
-    },
-    // this will come from the kitchen
-    commitTime: {
-        type: Date,
-        required: true
-    },
-    status: {
-        type: String,
-        required: true,
-        trim: true
+  purchaseDate: {
+    type: Date,
+    default: Date.now
+  },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product'
     }
-}, { timestamps: true });
+  ],
+requestTime:{
+  type: Date,
+  required: false
+}, 
+// this will come from the kitchen
+commitTime:{
+  type: Date,
+  default: null
+},
+status:{
+    type: String,
+    required: true,
+    default: "active",
+    trim: true}
+},
+ 
+{timestamps : true}
+);
 
-const Order = model('Order', orderSchema);
+
+const Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;

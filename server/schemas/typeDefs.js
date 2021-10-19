@@ -1,55 +1,50 @@
 const { gql } = require('apollo-server-express');
+
 const typeDefs = gql `
 
-input PizzaOrder{
-  _id:ID!
-  quantity: Number!
-  size: String!
-  toppings: String!
-  crust: String!
-}
+  type Product {
+    _id: ID
+    name: String
+    description: String
+    image: String
+    quantity: Int
+    price: Float
+    category: Category
+    size: String
+  }
+
   type Order {
     _id: ID
-    name: String
-    phone: String
-    pizzaorder:[PizzaOrder]
-    date: Date
-    requestime: Date
-    commitTime: Date
-    price: Number!
-    status: String
-  }
-
-  input Profile {
-    _id: ID
-    name: String
-    email: String
-    password: String
-    pastorders : [Order]
+    purchaseDate: String
+    products: [Product]
   }
   
-  type Job {
-     lastupdate: Date
-     orderId: ID
-     priority: Int
-     status: String
-     quantity: Int
-     commitTime: Date
-  }
-  type Kitchen {
+type Job {
+  _id:ID
+  lastupdated: Date
+  orderId: ID
+  priority: Int   
+  status: String
+  quantity: Int
+  commitTime: Date
+}
+
+  type User {
     _id: ID
-    date: Date
-    queue: [Job]
-  # orders:[Order]
+    firstName: String
+    lastName: String
+    email: String
+    orders: [Order]
   }
 
-  type History {
-    _id: ID
-    name: String
-    officeHours: String
-    officeLocation: String
-    studentScore: Float
-    classes: [Class]
+type Kitchen {
+  _id: ID
+  date: date
+  queue : [Job]
+}
+
+  type Checkout {
+    session: ID
   }
 
   type Auth {
@@ -58,18 +53,24 @@ input PizzaOrder{
   }
 
   type Query {
-    orders: [Order]   # provide orders in order
-    kitchen: Kitchen  # provide the queue and delivery schedule
-    history: History  # get reports on daily activity
-    user: User      # user list, active, online
-    order(id: ID!): Order  # fetch individual order
+    categories: [Category]
+    products(category: ID, name: String): [Product]
+    product(_id: ID!): Product
+    user: User
+    order(_id: ID!): Order
+    checkout(products: [ID]!): Checkout
   }
 
   type Mutation {
-    createUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(order: [ID]!): Order
-    updateOrder(_id: ID!, order: Int!): Order
+
+    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addOrder(products: [ID]!): Order
+    deleteOrder(_id:ID!) : Order
+    updateUser(firstName: String, lastName: String, email: String, password: String): User
+    updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    addordertoKitchen(order:Order!):Kitchen
+
   }
 `;
 

@@ -1,64 +1,187 @@
-const { History, Kitchen, Profile, Order, PizzaOrder } = require('../models');
+
+const { AuthenticationError } = require('apollo-server-express');
+const { User, Product, Category, Order } = require('../models');
+const { signToken } = require('../utils/auth');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const {calculatequeuetime,statuschangeJobs} = require('../utils/queuemanage')
 
 const resolvers = {
-    Mutation: {
-        createUser: async(parent, args) => {
-            const user = await Profile.create(args);
-            const token = signToken(user);
+  Query: {
+    categories: async () => {
+      return await Category.find();
+    },
+    products: async (parent, { category, name }) => {
+      const params = {};
 
-            return { token, user };
-        },
-        login: async(parent, { email, password }) => {
-            const user = await Profile.findOne({ email });
+      if (category) {
+        params.category = category;
+      }
 
-            if (!user) {
-                throw new AuthenticationError('Incorrect credentials');
-            }
+      if (name) {
+        params.name = {
+          $regex: name
+        };
+      }
 
-            const correctPw = await user.isCorrectPassword(password);
+      return await Product.find(params).populate('category');
+    },
+    product: async (parent, { _id }) => {
+      return await Product.findById(_id).populate('category');
+    },
+    user: async (parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: 'orders.products',
+          populate: 'category'
+        });
 
-            if (!correctPw) {
-                throw new AuthenticationError('Incorrect credentials');
-            }
+        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
-            const token = signToken(user);
-            return { token, user };
-        },
-        updateorder: async(parent, { _id, order }) => {
-            const decrement = Math.abs(order) * -1;
+        return user;
+      }
 
-            return await Order.findByIdAndUpdate(_id, { $inc: { order: decrement } }, { new: true });
+      throw new AuthenticationError('Not logged in');
+    },
+    order: async (parent, { _id }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: 'orders.products',
+          populate: 'category'
+        });
 
-        },
-        addorder: async(parent, { order }, context) => {
-            if (context.user) {
-                const newOrder = new Order({ order });
+        return user.orders.id(_id);
+      }
 
-                const neworder = await Order.create(newOrder);
+      throw new AuthenticationError('Not logged in');
+    },
+    checkout: async (parent, args, context) => {
+      const url = new URL(context.headers.referer).origin;
+      const order = new Order({ products: args.products });
+      const line_items = [];
 
-                return neworder;
-            }
+      const { products } = await order.populate('products').execPopulate();
 
-            throw new AuthenticationError('Not logged in');
-        },
-        updateProfile: async(parent, args, context) => {
-            if (context.user) {
-                return await User.findByIdAndUpdate(context.user._id, args, { new: true });
-            }
+      for (let i = 0; i < products.length; i++) {
+        const product = await stripe.products.create({
+          name: products[i].name,
+          description: products[i].description,
+          images: [`${url}/images/${products[i].image}`]
+        });
 
-            throw new AuthenticationError('Not logged in');
-        },
+        const price = await stripe.prices.create({
+          product: product.id,
+          unit_amount: products[i].price * 100,
+          currency: 'usd',
+        });
 
-        //         cancelorder: async(parent, {}, context) => {
-        //             if (context.user) {
-        //                 const updatedUser = await Order.findOneAndUpdate({ _id: context.user._id }, { new: tue });
-        //             }
+        line_items.push({
+          price: price.id,
+          quantity: 1
+        });
+      }
 
-        //             return updatedUser;
-        //         }
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items,
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`
+      });
 
-
+      return { session: session.id };
     }
+  },
+  Mutation: {
+    addUser: async (parent, args) => {
+      const user = await User.create(args);
+      const token = signToken(user);
+
+      return { token, user };
+    },
+    addOrder: async (parent, { products }, context) => {
+      console.log(context);
+      if (context.user) {
+        const order = new Order({ products });
+
+        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+
+        return order;
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+    
+    addordertoKitchen: async (parent, args, context) => {
+      if (context.user) {
+        const nowkitchen = await Kitchen.find({});
+        const newqueue = statuschangeJobs(nowkitchen[0].queue);
+        const nowkitchen = await Kitchen.find({});
+        console.log('nowkitchen', nowkitchen)
+        const newqueue = statuschangeJobs(nowkitchen[0].queue);
+        const updateOrder = await Order.findOneAndUpdate(
+          { _id: newOrder._id },
+          { commitTime: commtTime },
+          { new: true }
+        );
+
+        const updateKitchen = await Kitchen.findOneAndUpdate(
+          { _id: nowkitchen[0]._id },
+          { $push: { queue: newjob } },
+          { new: true }
+        )
+        let newjob = {
+          "lastupdated": newOrder.createdAt,
+          "orderId": newOrder._id,
+          "priority": newOrder.createdAt.getTime(),
+          "quantity": newOrder.pizzaorder[0].quantity,
+          "status": "active",
+          "commitTime": commtTime
+        }
+
+        // Update kitchen page
+        const updateKitchen = await Kitchen.findOneAndUpdate(
+          { _id: nowkitchen[0]._id },
+          { $push: { queue: newjob } },
+          { new: true }
+        )
+
+        return updateKitchen;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+
+    
+    
+    updateUser: async (parent, args, context) => {
+      if (context.user) {
+        return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+    updateProduct: async (parent, { _id, quantity }) => {
+      const decrement = Math.abs(quantity) * -1;
+
+      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
+    }
+  }
 
 };
 
