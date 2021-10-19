@@ -111,44 +111,43 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     
-    addordertoKitchen: async (parent, args, context) => {
-      if (context.user) {
-        const nowkitchen = await Kitchen.find({});
-        const newqueue = statuschangeJobs(nowkitchen[0].queue);
-        const nowkitchen = await Kitchen.find({});
-        console.log('nowkitchen', nowkitchen)
-        const newqueue = statuschangeJobs(nowkitchen[0].queue);
-        const updateOrder = await Order.findOneAndUpdate(
-          { _id: newOrder._id },
-          { commitTime: commtTime },
-          { new: true }
-        );
+    // addordertoKitchen: async (parent, args, context) => {
+    //   if (context.user) {
+    //     const nowkitchen = await Kitchen.find({});
 
-        const updateKitchen = await Kitchen.findOneAndUpdate(
-          { _id: nowkitchen[0]._id },
-          { $push: { queue: newjob } },
-          { new: true }
-        )
-        let newjob = {
-          "lastupdated": newOrder.createdAt,
-          "orderId": newOrder._id,
-          "priority": newOrder.createdAt.getTime(),
-          "quantity": newOrder.pizzaorder[0].quantity,
-          "status": "active",
-          "commitTime": commtTime
-        }
+    //     console.log('nowkitchen', nowkitchen)
+    //     const newqueue = statuschangeJobs(nowkitchen[0].queue);
+    //     const updateOrder = await Order.findOneAndUpdate(
+    //       { _id: newOrder._id },
+    //       { commitTime: commtTime },
+    //       { new: true }
+    //     );
 
-        // Update kitchen page
-        const updateKitchen = await Kitchen.findOneAndUpdate(
-          { _id: nowkitchen[0]._id },
-          { $push: { queue: newjob } },
-          { new: true }
-        )
+    //     const updateKitchen = await Kitchen.findOneAndUpdate(
+    //       { _id: nowkitchen[0]._id },
+    //       { $push: { queue: newjob } },
+    //       { new: true }
+    //     )
+    //     let newjob = {
+    //       "lastupdated": newOrder.createdAt,
+    //       "orderId": newOrder._id,
+    //       "priority": newOrder.createdAt.getTime(),
+    //       "quantity": newOrder.pizzaorder[0].quantity,
+    //       "status": "active",
+    //       "commitTime": commtTime
+    //     }
 
-        return updateKitchen;
-      }
-      throw new AuthenticationError('Not logged in');
-    },
+    //     // Update kitchen page
+    //     const updateKitchen = await Kitchen.findOneAndUpdate(
+    //       { _id: nowkitchen[0]._id },
+    //       { $push: { queue: newjob } },
+    //       { new: true }
+    //     )
+
+    //     return updateKitchen;
+    //   }
+    //   throw new AuthenticationError('Not logged in');
+    // },
 
     
     

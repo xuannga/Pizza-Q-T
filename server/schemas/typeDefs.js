@@ -9,7 +9,7 @@ const typeDefs = gql `
     image: String
     quantity: Int
     price: Float
-    category: Category
+    category: String
     size: String
   }
 
@@ -21,12 +21,12 @@ const typeDefs = gql `
   
 type Job {
   _id:ID
-  lastupdated: Date
+  lastupStringd: String
   orderId: ID
   priority: Int   
   status: String
   quantity: Int
-  commitTime: Date
+  commitTime: String
 }
 
   type User {
@@ -39,8 +39,8 @@ type Job {
 
 type Kitchen {
   _id: ID
-  date: date
-  queue : [Job]
+  date: String
+  queue: [Job]
 }
 
   type Checkout {
@@ -53,7 +53,7 @@ type Kitchen {
   }
 
   type Query {
-    categories: [Category]
+    categories: [String]
     products(category: ID, name: String): [Product]
     product(_id: ID!): Product
     user: User
@@ -69,7 +69,7 @@ type Kitchen {
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
-    addordertoKitchen(order:Order!):Kitchen
+    # addordertoKitchen(order:Order!):Kitchen
 
   }
 `;
