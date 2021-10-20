@@ -9,7 +9,7 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import './style.css';
 import {ADD_ORDER } from '../../utils/mutations';
-import {ADD_KITCHEN } from '../../utils/mutations';
+import { ADD_ORDER_KITCHEN } from '../../utils/mutations';
  
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 

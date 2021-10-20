@@ -5,6 +5,10 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
+    kitchens: async (parent, {_id}) =>{
+      const kitch = await Kitchen.findById(_id);
+      return kitch 
+    },
     categories: async () => {
       return await Category.find();
     },
@@ -90,17 +94,56 @@ const resolvers = {
     }
   },
   Mutation: {
+    addKitchen: async (parent,args) =>{
+      const newkitchendata = {
+        date: Date.now(),
+        queue: []
+      }
+      const newKitchen = await Kitchen.create(newkitchendata);
+       return newKitchen
+    },
+
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
 
       return { token, user };
     },
-    addordertoKitchen : async (parent, { products }, context) => {
-       
 
-      return Kitchen;
+    updateKitchen: async (parent,{ _id, orderId, products }, context) =>{
+      const nowkitchen = await Kitchen.findById(_id);
+      const productid = await Product.find();
+      const neworder = await Order.findById(orderId);
+
+      // Examine/update queue, create qtime, update order
+     
+      return nowkitchen
     },
+  //   addOrderKitchen : async (parent, {newKitchenOrder,_id}, context) => {
+  //     if (context.user) {
+  //       const nowkitchen = await Kitchen.findById(_id)
+        
+  //       console.log('nowkitchen',nowkitchen)
+  //       // const newqueue = statuschangeJobs(nowkitchen[0].queue);
+    
+  //       // Calculate Qtime and commtTime
+  //       // let qtime = calculatequeuetime(inputneworder,newqueue);
+  //       // console.log('qtime',qtime);
+  //       // const commtTime = Date.now() + qtime*60000;
+     
+  //       // // Update order to include commitTime
+  //       // const updateOrder = await Order.findOneAndUpdate(
+  //       //     { _id: newOrder._id },
+  //       //     {  commitTime: commtTime},
+  //       //     { new: true }
+  //       // );
+    
+
+        
+  //     return nowkitchen;
+  //   } 
+  //   throw new AuthenticationError('Not logged in');
+  // },
 
     addOrder: async (parent, { products }, context) => {
       console.log(context);
@@ -108,7 +151,8 @@ const resolvers = {
         const order = new Order({ products });
         console.log("add order",order)
         await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
-
+        const orderdb = await Order.create({products});
+        
         return order;
       }
 

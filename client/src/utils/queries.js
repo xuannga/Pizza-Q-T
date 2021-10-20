@@ -16,6 +16,19 @@ export const QUERY_PRODUCTS = gql`
   }
 `;
 
+export const QUERY_KITCHENQUEUE = gql`
+   {
+    kitchens {
+      date
+      queue {
+        orderId
+        priority
+        commitTime
+      }
+    }
+  }
+`;
+
 export const QUERY_CHECKOUT = gql`
   query getCheckout($products: [ID]!) {
     checkout(products: $products) {
