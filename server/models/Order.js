@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const orderSchema = new Schema({
+const Order = new Schema({
   purchaseDate: {
     type: Date,
     default: Date.now
