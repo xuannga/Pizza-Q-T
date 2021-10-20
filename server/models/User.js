@@ -25,11 +25,6 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
-  phone:{
-    type:Number,
-    required: false,
-    minlength: 10
-  },
   orders: [Order.schema]
 });
 

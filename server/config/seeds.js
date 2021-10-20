@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const { User, Product, Category, Kitchen } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -52,7 +52,7 @@ db.once('open', async () => {
     {
       name: 'Salads',
       description:
-        'Praesent sed lacinia mauris. Nulla congue nibh magna, at feugiat nunc scelerisque quis. Donec iaculis rutrum vulputate. Suspendisse lectus sem, vulputate ac lectus sed, placerat consequat dui.',
+        'Spinach, Arugula, tomatoes, Cranberries, and your choice of dressing : ranch, 1000 island or blue cheese',
       image: 'salads.jpg',
       category: categories[3]._id,
       price: 2.99,
@@ -62,7 +62,7 @@ db.once('open', async () => {
     {
       name: 'Soda',
       description:
-        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        'Soft drinks, Sparkling waters and Cold Teas',
       image: 'beverages.jpg',
       category: categories[4]._id,
       price: 0.99,
@@ -83,7 +83,10 @@ db.once('open', async () => {
     orders: [
       {
         products: [products[0]._id, products[0]._id, products[1]._id]
-      }
+      },
+      {
+        products: [products[0]._id, products[1]._id, products[1]._id]
+      },
     ]
   });
 
@@ -91,10 +94,57 @@ db.once('open', async () => {
     firstName: 'Elijah',
     lastName: 'Holt',
     email: 'eholt@testmail.com',
-    password: 'password12345'
+    password: 'password12345',
+    orders:[
+      {
+        products: [products[0]._id, products[0]._id, products[0]._id]
+      }
+    ]
   });
 
   console.log('users seeded');
 
+//   await Kitchen.deleteMany();
+
+  await Kitchen.create({
+    "date":"2021-09-29 04:44:21.328Z",
+    "queue": [
+        { 
+            "lastupdated": "2021-09-29 04:44:21.328Z",
+            "orderId": "616f59279c4a2925c4e75d59",
+            "priority": 1634243786651,
+            "status": "active",
+            "quantity":1,
+            "commitTime": 1634417375460
+        },
+        {
+            "lastupdated": "2021-09-29 04:44:21.328Z",
+            "orderId": "616f59279c4a2925c4e75d5a",
+            "priority": 1634243786478,
+            "status": "active",
+            "quantity":2,
+            "commitTime": 1634417125460
+        },
+        {
+            "lastupdated": "2021-09-29 04:44:21.328Z",
+            "orderId": "616f59279c4a2925c4e75d5d",
+            "priority": 1634243786111,
+            "status": "inoven",
+            "quantity":2,
+            "commitTime": 1634417025460
+        }
+      ]});
+//         {
+//             "lastupdated": "2021-09-29 04:44:21.328Z",
+//             "orderId": "616907aae00c978118f0ca7b",
+//             "priority": 1634243786154,
+//             "status": "complete",
+//             "quantity":1,
+//             "commitTime": 1634416925460
+//         }
+//     ]
+// })
+
+console.log('kitchen seeded')
   process.exit();
 });

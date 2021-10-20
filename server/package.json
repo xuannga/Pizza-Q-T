@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "enginers": {
-    "node": "14.17.0"
-  },
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon",

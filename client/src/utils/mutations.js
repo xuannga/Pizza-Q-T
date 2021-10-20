@@ -11,24 +11,6 @@ export const LOGIN = gql`
   }
 `;
 
-export const ADD_ORDER_KITCHEN = gql`
-  mutation addordertoKitchen($order: ID!) {
-    addordertoKitchen(order: $order) {
-      purchaseDate
-      products {
-        _id
-        name
-        description
-        price
-        quantity
-        category {
-          name
-        }
-      }
-    }
-  }
-`;
-
 export const ADD_ORDER = gql`
   mutation addOrder($products: [ID]!) {
     addOrder(products: $products) {
