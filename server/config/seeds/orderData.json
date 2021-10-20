@@ -3,12 +3,7 @@
     "_id":"616907aae00c978118f0ca75",
     "name": "John Smith",
     "phone": 3605551430,
-<<<<<<< HEAD:server/seeds/orderData.json
-    "date": "2021-10-5",
-    
-=======
     "price": 21.00,
->>>>>>> 2d245cea2da2ef277bb5734dfe2a2ac95c3f8a04:server/config/seeds/orderData.json
     "pizzaorder": 
       {
       "quantity":1,
