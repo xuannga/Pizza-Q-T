@@ -1,6 +1,9 @@
-const Kitchen = require('./Kitchen');
+const User = require('./User');
+const Product = require('./Product');
+const Category = require('./Category');
 const Order = require('./Order');
-const History = require('./History');
-const Profile = require('./Profile');
+const Kitchen = require('./Kitchen');
+const Job = require('./Job');
+const PizzaOrder = require('./PizzaOrder')
 
-module.exports = { Kitchen, Order, History, Profile };
+module.exports = { Job, PizzaOrder, User, Product, Category, Order, Kitchen };

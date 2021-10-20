@@ -1,0 +1,60 @@
+[
+    {
+      "firstName": "Brian",
+      "lastName": "Kernighan",
+      "email": "bkernighan@techfriends.dev",
+      "password": "password01",
+      "pastorders": []
+    },
+    {
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "jsmith@mail.dev",
+      "password": "password02",
+      "pastorders": [{
+        "quantity":1,
+        "size": "large",
+        "toppings": "Cheese, Pepperoni",
+        "crust": "thick"
+      }]
+    },
+    {
+      "firstName": "Slyvia",
+      "lastName": "Hampton",
+      "email": "shampton@mail.com",
+      "password": "password03",
+      "pastorders":[{
+        "quantity": 1,
+        "size": "large",
+        "toppings": "Cheese, Tomatoes",
+        "crust": "thick"
+      }]
+    },
+    {
+      "firstName": "Eleanor",
+      "lastName": "Rigsby",
+      "email": "erigsby@mail.dev",
+      "password": "password04",
+      "pastorders":[{
+        "quantity": 1,
+        "size": "large",
+        "toppings": "Cheese, Vegetables",
+        "crust": "thick"
+      }]
+    },
+    {
+      "firstName": "Mickey",
+      "lastName": "Mango",
+      "email": "mmango@mail.dev",
+      "password": "password05",
+      "pastorders":[
+        {
+          "quantity": 1,
+          "size": "large",
+          "toppings": "Cheese, Spiders",
+          "crust": "thick"
+        }
+      ]
+    }
+  ]
+  

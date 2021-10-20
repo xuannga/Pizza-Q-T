@@ -1,72 +1,76 @@
-
 const { gql } = require('apollo-server-express');
-const typeDefs = gql`
 
-type PizzaOrder{
-  _id:ID!
-  quantity: Number!
-  size: String!
-  toppings: String!
-  crust: String!
-}
+const typeDefs = gql `
+
+  type Product {
+    _id: ID
+    name: String
+    description: String
+    image: String
+    quantity: Int
+    price: Float
+    category: String
+    size: String
+  }
+
   type Order {
     _id: ID
-    name: String
-    phone: String
-    pizzaorder: String
-    quantity: Number
-    size: String
-    toppings: String
-    crust: String
-    price: Number
-    date: Date,
-    pizzaorder:[PizzaOrder]
-    date: Date
-    requestime: Date
-    commitTime: Date
-    price: Number!
-    status: String
+    purchaseDate: String
+    products: [Product]
   }
+  
+type Job {
+  _id:ID
+  lastupStringd: String
+  orderId: ID
+  priority: Int   
+  status: String
+  quantity: Int
+  commitTime: String
+}
 
-  type Profile {
+  type User {
     _id: ID
-    name: String
+    firstName: String
+    lastName: String
     email: String
-    password: String
-    pastorders : [Order]
-  }
-  type Kitchen {
-    _id: ID
-    date: Date
-    queue: [String]
-    orders:[Order]
+    orders: [Order]
   }
 
-  type History {
-    _id: ID
-    name: String
-    officeHours: String
-    officeLocation: String
-    studentScore: Float
-    classes: [Class]
+type Kitchen {
+  _id: ID
+  date: String
+  queue: [Job]
+}
+
+  type Checkout {
+    session: ID
+  }
+
+  type Auth {
+    token: ID
+    user: User
   }
 
   type Query {
-    orders: [Order]   # provide orders in order
-    kitchen: Kitchen  # provide the queue and delivery schedule
-    history: History  # get reports on daily activity
-    user: User      # user list, active, online
-    order(id: ID!): Order  # fetch individual order
+    categories: [String]
+    products(category: ID, name: String): [Product]
+    product(_id: ID!): Product
+    user: User
+    order(_id: ID!): Order
+    checkout(products: [ID]!): Checkout
   }
 
-  # Define which mutations the client is allowed to make
   type Mutation {
-    # Set the required fields for new schools
-    addOrder(name: String!, phone: String!, pizzaorder: Int!, date: Date!,requestime: Date! ): Order
-    closeOrder()   # complete order status
-    updateOrder()  # change order, cancel , add quantity, ...
-    updateKitchen() # queue updates as pizzas go in oven, out of oven
-    acceptOrderfromKitchen() # respond to user on order acceptance
+
+    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addOrder(products: [ID]!): Order
+    deleteOrder(_id:ID!) : Order
+    updateUser(firstName: String, lastName: String, email: String, password: String): User
+    updateProduct(_id: ID!, quantity: Int!): Product
+    login(email: String!, password: String!): Auth
+    # addordertoKitchen(order:Order!):Kitchen
+
   }
 `;
 
