@@ -1,17 +1,27 @@
-
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Order } = require('../models');
+const { User, Product, Category, Order, Kitchen } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
-const {calculatequeuetime,statuschangeJobs} = require('../utils/queuemanage')
 
 const resolvers = {
   Query: {
     categories: async () => {
       return await Category.find();
     },
-    products: async () => {
-      return await Product.find();
+    products: async (parent, { category, name }) => {
+      const params = {};
+
+      if (category) {
+        params.category = category;
+      }
+
+      if (name) {
+        params.name = {
+          $regex: name
+        };
+      }
+
+      return await Product.find(params).populate('category');
     },
     product: async (parent, { _id }) => {
       return await Product.findById(_id).populate('category');
@@ -86,11 +96,17 @@ const resolvers = {
 
       return { token, user };
     },
+    addordertoKitchen : async (parent, { products }, context) => {
+       
+
+      return Kitchen;
+    },
+
     addOrder: async (parent, { products }, context) => {
       console.log(context);
       if (context.user) {
         const order = new Order({ products });
-
+        console.log("add order",order)
         await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
 
         return order;
@@ -98,47 +114,6 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    
-    // addordertoKitchen: async (parent, args, context) => {
-    //   if (context.user) {
-    //     const nowkitchen = await Kitchen.find({});
-
-    //     console.log('nowkitchen', nowkitchen)
-    //     const newqueue = statuschangeJobs(nowkitchen[0].queue);
-    //     const updateOrder = await Order.findOneAndUpdate(
-    //       { _id: newOrder._id },
-    //       { commitTime: commtTime },
-    //       { new: true }
-    //     );
-
-    //     const updateKitchen = await Kitchen.findOneAndUpdate(
-    //       { _id: nowkitchen[0]._id },
-    //       { $push: { queue: newjob } },
-    //       { new: true }
-    //     )
-    //     let newjob = {
-    //       "lastupdated": newOrder.createdAt,
-    //       "orderId": newOrder._id,
-    //       "priority": newOrder.createdAt.getTime(),
-    //       "quantity": newOrder.pizzaorder[0].quantity,
-    //       "status": "active",
-    //       "commitTime": commtTime
-    //     }
-
-    //     // Update kitchen page
-    //     const updateKitchen = await Kitchen.findOneAndUpdate(
-    //       { _id: nowkitchen[0]._id },
-    //       { $push: { queue: newjob } },
-    //       { new: true }
-    //     )
-
-    //     return updateKitchen;
-    //   }
-    //   throw new AuthenticationError('Not logged in');
-    // },
-
-    
-    
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, { new: true });
@@ -169,7 +144,6 @@ const resolvers = {
       return { token, user };
     }
   }
-
 };
 
 module.exports = resolvers;

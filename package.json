@@ -1,5 +1,5 @@
 {
-  "name": "pizza-qt",
+  "name": "mern-shopping",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
@@ -15,8 +15,5 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
-  },
-  "dependencies": {
-    "nodemon": "^2.0.13"
   }
 }

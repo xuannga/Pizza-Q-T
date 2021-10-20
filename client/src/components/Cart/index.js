@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
-
+import { useStoreContext } from '../../utils/GlobalState';
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import './style.css';
-import { useDispatch, useSelector  } from 'react-redux';
-
+import {ADD_ORDER } from '../../utils/mutations';
+import {ADD_KITCHEN } from '../../utils/mutations';
+ 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
- 
+  const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [addOrder] = useMutation(ADD_ORDER);
 
   useEffect(() => {
     if (data) {
@@ -51,24 +51,18 @@ const Cart = () => {
 
   function submitCheckout() {
     const productIds = [];
-    let totalcount =0;
+
     state.cart.forEach((item) => {
-      let pizzacount =0;
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
-      if(item.name ==="Combo"||item.name ==="MeatLovers"||item.name ==="Vegetarian"){
-        pizzacount=+item.purchaseQuantity;
-      }
-      totalcount+=pizzacount;
     });
+
     getCheckout({
       variables: { products: productIds },
     });
-  
- 
 
-    
+   console.log ('state',state.cart, state)
   }
 
   if (!state.cartOpen) {
