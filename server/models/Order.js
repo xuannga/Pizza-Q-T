@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const Order = new Schema({
+const orderSchema = new Schema({
   purchaseDate: {
     type: Date,
     default: Date.now
