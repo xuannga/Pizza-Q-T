@@ -17,14 +17,15 @@ const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [addOrder] = useMutation(ADD_ORDER);
+  const [addOrderKitchen]= useMutation(ADD_ORDER_KITCHEN);
 
-  useEffect(() => {
-    if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     stripePromise.then((res) => {
+  //       res.redirectToCheckout({ sessionId: data.checkout.session });
+  //     });
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     async function getCart() {
@@ -37,7 +38,7 @@ const Cart = () => {
     }
   }, [state.cart.length, dispatch]);
 
-  function toggleCart() {
+   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
 
@@ -49,7 +50,7 @@ const Cart = () => {
     return sum.toFixed(2);
   }
 
-  function submitCheckout() {
+  async function submitCheckout() {
     const productIds = [];
 
     state.cart.forEach((item) => {
@@ -62,7 +63,16 @@ const Cart = () => {
       variables: { products: productIds },
     });
 
-   console.log ('state',state.cart, state)
+   console.log ('state',state.cart)
+   const  { data }  = await addOrder({ variables: { products: productIds } });
+   console.log('newdata', data.addOrder._id, data.addOrder.products)
+   console.log(productIds)
+   const upkitch = await addOrderKitchen({ variables: {
+     orderid: data.addOrder._id,
+     products: productIds }
+   })
+   console.log(upkitch)
+
   }
 
   if (!state.cartOpen) {

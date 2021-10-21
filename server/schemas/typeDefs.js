@@ -67,17 +67,18 @@ const typeDefs = gql`
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
     kitchens(_id: ID): Kitchen
+    kitchentoday: Kitchen
   }
 
   type Mutation {
-    addKitchen(date:String): Kitchen
+    addKitchen: Kitchen
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
     # addOrderKitchen(kitchenorder: Kitchenorder! ): Kitchen
-    updateKitchen(_id: ID!,orderId: ID, products: [ID]): Kitchen
+    updateKitchen(orderid: ID, products: [ID]): Kitchen
   }
 `;
 

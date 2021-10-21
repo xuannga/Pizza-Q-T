@@ -4,12 +4,11 @@ const { Schema } = require('mongoose');
 // array in Kitchen.js
 const jobSchema = new Schema(
 {
-    lastupdated: {type: Date},
     orderId: {type: Schema.Types.ObjectId,
             ref: 'Order'}, // linked to orders,linked referen
     priority: {type: Number}, // ordercreatedAt time stamp in milliseconds
     status: {type:String},  // prelim, active, in-oven, cancel, complete
-    quantity: {type: Number},
+    pizzas: [{type: String}],
     commitTime: {type:Date}
   }
 );

@@ -12,8 +12,8 @@ export const LOGIN = gql`
 `;
 
 export const ADD_ORDER_KITCHEN = gql`
-  mutation addOrderKitchen($products: [ID]!) {
-    addOrderKitchen(products: $products) {
+  mutation addOrderKitchen($orderid: ID, $products: [ID]!) {
+    addOrderKitchen(orderid: $orderid, products: $products) {
       purchaseDate
       products {
         _id
@@ -33,6 +33,7 @@ export const ADD_ORDER = gql`
   mutation addOrder($products: [ID]!) {
     addOrder(products: $products) {
       purchaseDate
+      _id
       products {
         _id
         name

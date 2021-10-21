@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Product, Category, Kitchen } = require('../models');
+const { User, Product, Order, Category, Kitchen, Order } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -144,7 +144,21 @@ db.once('open', async () => {
 //         }
 //     ]
 // })
+// await Order.deleteMany();
+// await Order.create(
+ 
+//   {
+//     products: [products[0]._id, products[0]._id, products[1]._id]
+//   });
+//   await Order.create(
+//   {
+//     products: [products[0]._id, products[1]._id, products[1]._id]
+//   });
 
+//   {
+//     products: [products[0]._id, products[0]._id, products[0]._id]
+//   }
+// ]})
 console.log('kitchen seeded')
   process.exit();
 });
