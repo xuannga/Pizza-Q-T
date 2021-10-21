@@ -40,10 +40,16 @@ function CategoryMenu() {
       currentCategory: id,
     });
   };
+  const homeShortcut = () =>{
+    window.location.reload();
+  }
 
   return (
     <div>
       <h2>Menu:</h2>
+      <button type='button' onClick={homeShortcut}>
+      Home
+      </button>
       {categories.map((item) => (
         <button
           key={item._id}
