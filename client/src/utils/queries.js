@@ -18,7 +18,7 @@ export const QUERY_PRODUCTS = gql`
 
 export const QUERY_KITCHENQUEUE = gql`
    {
-    kitchens {
+    kitchentoday {
       date
       queue {
         orderId

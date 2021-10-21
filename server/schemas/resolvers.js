@@ -6,8 +6,7 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 const resolvers = {
   Query: {
     kitchentoday: async (parent, args) =>{
-      const kitch = await Kitchen.find({date:new Date().toLocaleDateString()});
-      console.log(kitch)
+      const kitch = await Kitchen.findOne({date:new Date().toLocaleDateString()});
       return kitch 
     },
 
@@ -70,8 +69,8 @@ const resolvers = {
       
       const { products } = await order.populate('products').execPopulate();
       
-      console.log("order", order)
-      console.log("products", products)
+      // console.log("order", order)
+      // console.log("products", products)
 
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
@@ -120,59 +119,36 @@ const resolvers = {
       return { token, user };
     },
 
-    updateKitchen: async (parent, {orderid, products }, context) =>{
+    updateKitchen: async (parent, {orderid }, context) =>{
+      
+      const nowkitchen = await Kitchen.find({});
+      const productid = await Product.find({});
 
-      const nowkitchen = await Kitchen.find({date:new Date().toLocaleDateString()});
-      const productid = await Product.find();
+      
       let qtime=15;
       // pizzas from products
       console.log('beforekitchen', nowkitchen)
       console.log('productid',productid);
-
+      let newtime = Date.now() + qtime*60000;
+      let commtime = newtime.toString()
       const newjob = {
         orderId: orderid,
-        priority: Date.now(),
+        priority: Date.now().toString(),  // convert to string 
         status: "active",
         pizzas:["Combo","Vegetarian","MeatLovers"],
-        commtTime: Date.now() + qtime*60000
+        commitTime: commtime
       };
 
       console.log('newjob',newjob)
       const kitch = await Kitchen.findByIdAndUpdate(nowkitchen[0]._id,
-        { $push: { queue: newjob } },
-        { new: true }
-      );
+        { $push: { queue: newjob }  });
 
       console.log('newkitch',kitch)
       // Examine/update queue, create qtime, update order
      
-      return nowkitchen
-    },
-  //   addOrderKitchen : async (parent, {newKitchenOrder,_id}, context) => {
-  //     if (context.user) {
-  //       const nowkitchen = await Kitchen.findById(_id)
-        
-  //       console.log('nowkitchen',nowkitchen)
-  //       // const newqueue = statuschangeJobs(nowkitchen[0].queue);
-    
-  //       // Calculate Qtime and commtTime
-  //       // let qtime = calculatequeuetime(inputneworder,newqueue);
-  //       // console.log('qtime',qtime);
-  //       // const commtTime = Date.now() + qtime*60000;
-     
-  //       // // Update order to include commitTime
-  //       // const updateOrder = await Order.findOneAndUpdate(
-  //       //     { _id: newOrder._id },
-  //       //     {  commitTime: commtTime},
-  //       //     { new: true }
-  //       // );
-    
-
-        
-  //     return nowkitchen;
-  //   } 
-  //   throw new AuthenticationError('Not logged in');
-  // },
+      return kitch
+   
+  },
 
     addOrder: async (parent, { products }, context) => {
       console.log(context);
@@ -181,13 +157,13 @@ const resolvers = {
         const order = new Order({ products });
         console.log("add order",order)
         const upUser = await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
-        console.log( 'uppppuser',upUser)
-        
+       
         return order;
       }
 
       throw new AuthenticationError('Not logged in');
     },
+
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, { new: true });

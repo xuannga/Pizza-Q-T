@@ -20,8 +20,8 @@ const typeDefs = gql`
     _id: ID
     orderId: ID
     lastupdated: String
-    priority: Int
-    quantity: Int
+    priority: String
+    pizzas: [String]
     commitTime: String
   }
 
@@ -78,7 +78,7 @@ const typeDefs = gql`
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
     # addOrderKitchen(kitchenorder: Kitchenorder! ): Kitchen
-    updateKitchen(orderid: ID, products: [ID]): Kitchen
+    updateKitchen(orderid: ID): Kitchen
   }
 `;
 

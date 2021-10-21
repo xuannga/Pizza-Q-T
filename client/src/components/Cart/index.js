@@ -17,15 +17,31 @@ const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [addOrder] = useMutation(ADD_ORDER);
-  const [addOrderKitchen]= useMutation(ADD_ORDER_KITCHEN);
+  const [updateKitchen]= useMutation(ADD_ORDER_KITCHEN);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     stripePromise.then((res) => {
-  //       res.redirectToCheckout({ sessionId: data.checkout.session });
-  //     });
-  //   }
-  // }, [data]);
+  useEffect( () => {
+    async function setOrder(){
+    const productIds = [];
+
+    state.cart.forEach((item) => {
+      for (let i = 0; i < item.purchaseQuantity; i++) {
+        productIds.push(item._id);
+      }
+    });
+    if (data) {
+      const  newOrder = await addOrder({ variables: { products: productIds } });
+      console.log('newOrder', newOrder)
+   
+      const upkitch = await updateKitchen({ variables: {
+          orderid: newOrder._id,
+           products: productIds }
+         })
+     await stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.checkout.session });
+      });
+    }}
+    setOrder()
+  }, [data]);
 
   useEffect(() => {
     async function getCart() {
@@ -50,7 +66,7 @@ const Cart = () => {
     return sum.toFixed(2);
   }
 
-  async function submitCheckout() {
+ function submitCheckout() {
     const productIds = [];
 
     state.cart.forEach((item) => {
@@ -63,15 +79,18 @@ const Cart = () => {
       variables: { products: productIds },
     });
 
-   console.log ('state',state.cart)
-   const  { data }  = await addOrder({ variables: { products: productIds } });
-   console.log('newdata', data.addOrder._id, data.addOrder.products)
-   console.log(productIds)
-   const upkitch = await addOrderKitchen({ variables: {
-     orderid: data.addOrder._id,
-     products: productIds }
-   })
-   console.log(upkitch)
+  //  console.log ('state',state.cart)
+
+  //  const  { data }  = await addOrder({ variables: { products: productIds } });
+
+  //  console.log('newdata', data.addOrder._id, data.addOrder.products)
+  //  console.log(productIds)
+
+  //  const upkitch = await updateKitchen({ variables: {
+  //   orderid: data.addOrder._id,
+  //    products: productIds }
+  //  })
+  //  console.log(upkitch)
 
   }
 
