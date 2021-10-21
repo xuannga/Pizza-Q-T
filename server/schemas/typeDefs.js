@@ -19,7 +19,7 @@ const typeDefs = gql`
   type Job {
     _id: ID
     orderId: ID
-    lastupdated: String
+    status: String
     priority: String
     pizzas: [String]
     commitTime: String
