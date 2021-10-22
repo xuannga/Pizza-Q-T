@@ -1,12 +1,13 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Product, Category, Order, Kitchen } = require('../models');
 const { signToken } = require('../utils/auth');
+const { calculatequeuetime } = require('../utils/helpers');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    kitchentoday: async (parent, args) =>{
-      const kitch = await Kitchen.findOne({date:new Date().toLocaleDateString()});
+    kitchentoday: async (parent, {_id}) =>{
+      const kitch = await Kitchen.findById(_id);
       return kitch 
     },
 
@@ -120,12 +121,12 @@ const resolvers = {
     },
 
     updateKitchen: async (parent, {orderid }, context) =>{
-      
-      const nowkitchen = await Kitchen.find({});
+      const nowkitchen = await Kitchen.find({
+        _id:"617053975ef3373254013c90"});
       const productid = await Product.find({});
-
       
-      let qtime=15;
+      qtime=15;
+      // let qtime=calculatequeuetime(nowkitchen.queue, ) ;
       // pizzas from products
       console.log('beforekitchen', nowkitchen)
       console.log('productid',productid);

@@ -54,9 +54,10 @@ function App() {
               <Route component={NoMatch} />
             </Switch>
           </StoreProvider>
-        </div>
+            </div>
       </Router>
     </ApolloProvider>
+
   );
 }
 

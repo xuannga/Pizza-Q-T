@@ -31,9 +31,9 @@ const Cart = () => {
     if (data) {
       const  newOrder = await addOrder({ variables: { products: productIds } });
       console.log('newOrder', newOrder)
-      console.log('looking for id', newOrder.data)
+      console.log('looking for id', newOrder.data,newOrder.data.addOrder._id)
       const upkitch = await updateKitchen({ variables: {
-          orderid: newOrder.data.addOrder._id}
+          orderid: newOrder.data.addOrder._id }
          })
      await stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });

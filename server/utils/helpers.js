@@ -1,4 +1,4 @@
-export function calculatequeuetime(neworder, newqueue) {
+function calculatequeuetime(neworder, newqueue) {
     let qtime;
     let inprog = newqueue.filter(({ status }) => status !== 'complete').reduce((total, obj) => obj.quantity + total, 0)
     if (inprog < capacity) {
@@ -11,7 +11,7 @@ export function calculatequeuetime(neworder, newqueue) {
     return qtime
 }
 
-export function statuschangeJobs(queue){
+function statuschangeJobs(queue){
     let nqueue = [...queue]
     let nnow = Date.now()
     // sort queue
@@ -31,3 +31,5 @@ export function statuschangeJobs(queue){
      }
      return nqueue
     }
+
+    module.exports=  { statuschangeJobs, calculatequeuetime}
