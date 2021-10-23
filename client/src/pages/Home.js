@@ -9,7 +9,7 @@ import KitchenQ from "./KitchenQ";
 
 const Home = () => {
   return (
-    <div className="container">
+    <div className="container" >
       <CategoryMenu />
       <ProductList />
       <Cart />

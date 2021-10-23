@@ -4,11 +4,12 @@ import { useTable } from 'react-table';
 import { useQuery } from '@apollo/client';
 import { QUERY_KITCHENQUEUE } from '../utils/queries';
 import mockdata from '../utils/mockdata.json';
-import Moment from 'moment'
+import Moment from 'moment';
 import { ADD_ORDER_KITCHEN} from '../utils/mutations';
 import {ADD_ORDER} from '../utils/mutations'
 import  '../utils/table.css'
 import { useStoreContext } from '../utils/GlobalState';
+import moment from 'moment';
 
 function Table ({columns, data}) {
   const {
@@ -74,6 +75,7 @@ function Table ({columns, data}) {
       // console.log(ddata)
       // return ddata
           // }
+
     //Define columns
     const columns = React.useMemo(() => [
         {
@@ -88,8 +90,8 @@ function Table ({columns, data}) {
             Header: 'Item Ordered',
             accessor: 'pizzas'
         },
-        
         {
+
             Header: 'Priority',
             accessor: 'priority'
         }
@@ -97,6 +99,12 @@ function Table ({columns, data}) {
     ])
      
     const data = React.useMemo(() => ddata)
+
+            Header: 'Status',
+            accessor: 'commitTime'
+        }
+
+    ])
 
     return(
         <>
@@ -110,7 +118,7 @@ function Table ({columns, data}) {
             </h1>
 
             <h3>
-                Orders currently in the kitchen today {Moment().format('MMM d, YYYY')}<br /><br />
+                Orders currently in the kitchen today {Moment().format('MMMM DD, YYYY')} <br /><br />
             </h3>
           
             <Table columns={columns} data={data}/>
