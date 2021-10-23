@@ -113,31 +113,7 @@ db.once('open', async () => {
             "commitTime": 1634417025460
         }
       ]});
-//         {
-//             "lastupdated": "2021-09-29 04:44:21.328Z",
-//             "orderId": "616907aae00c978118f0ca7b",
-//             "priority": 1634243786154,
-//             "status": "complete",
-//             "quantity":1,
-//             "commitTime": 1634416925460
-//         }
-//     ]
-// })
-// await Order.deleteMany();
-// await Order.create(
- 
-//   {
-//     products: [products[0]._id, products[0]._id, products[1]._id]
-//   });
-//   await Order.create(
-//   {
-//     products: [products[0]._id, products[1]._id, products[1]._id]
-//   });
 
-//   {
-//     products: [products[0]._id, products[0]._id, products[0]._id]
-//   }
-// ]})
 console.log('kitchen seeded')
   process.exit();
 });
