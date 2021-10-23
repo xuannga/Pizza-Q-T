@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery, useMutation } from '@apollo/client';
@@ -29,12 +30,13 @@ const Cart = () => {
       }
     });
     if (data) {
-      const  newOrder = await addOrder({ variables: { products: productIds } });
-      console.log('newOrder', newOrder)
-      console.log('looking for id', newOrder.data,newOrder.data.addOrder._id)
-      const upkitch = await updateKitchen({ variables: {
-          orderid: newOrder.data.addOrder._id }
-         })
+      // const  newOrder = await addOrder({ variables: { products: productIds } });
+      // console.log('newOrder', newOrder)
+      // console.log('looking for id', newOrder.data,newOrder.data.addOrder._id)
+      // const upkitch = await updateKitchen({ variables: {
+      //     orderid: newOrder.data.addOrder._id }
+      //    })
+        
      await stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
@@ -65,7 +67,7 @@ const Cart = () => {
     return sum.toFixed(2);
   }
 
- function submitCheckout() {
+ async function submitCheckout() {
     const productIds = [];
 
     state.cart.forEach((item) => {
@@ -78,18 +80,20 @@ const Cart = () => {
       variables: { products: productIds },
     });
 
-  //  console.log ('state',state.cart)
-
-  //  const  { data }  = await addOrder({ variables: { products: productIds } });
-
-  //  console.log('newdata', data.addOrder._id, data.addOrder.products)
-  //  console.log(productIds)
-
-  //  const upkitch = await updateKitchen({ variables: {
-  //   orderid: data.addOrder._id,
-  //    products: productIds }
-  //  })
-  //  console.log(upkitch)
+    const  {data} = await addOrder({ variables: { products: productIds } });
+    console.log('newOrder', data)
+   
+    let pizzas = data.addOrder.products.map((e)=> e._id)
+    let stringpizzas = pizzas.toString()
+    console.log(data.addOrder._id)
+    
+    const upkitch = await updateKitchen(
+      { variables: {
+        orderid: data.addOrder._id,
+        pizzas: stringpizzas }
+       })
+   
+       console.log(upkitch)
 
   }
 

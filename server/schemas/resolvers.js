@@ -1,14 +1,15 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Product, Category, Order, Kitchen } = require('../models');
 const { signToken } = require('../utils/auth');
-const { calculatequeuetime } = require('../utils/helpers');
+ 
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    kitchentoday: async (parent, {_id}) =>{
-      const kitch = await Kitchen.findById(_id);
-      return kitch 
+    kitchentoday: async (parent, ) =>{
+      const nowkitchen = await Kitchen.findById(
+        "617248ec601a354b8c6fb5f5");
+      return nowkitchen 
     },
 
     kitchens: async (parent, {_id}) =>{
@@ -120,39 +121,65 @@ const resolvers = {
       return { token, user };
     },
 
-    updateKitchen: async (parent, {orderid }, context) =>{
-      const nowkitchen = await Kitchen.find({
-        _id:"617053975ef3373254013c90"});
-      const productid = await Product.find({});
+    updateKitchen: async (parent, {orderid, pizzas }, context) =>{
+      const nowkitchen = await Kitchen.findById(
+        "617248ec601a354b8c6fb5f5");
+      let tqueue=nowkitchen.queue;
+
+      const capacity=20;
+      const avgcooktime = 15; 
       
-      qtime=15;
-      // let qtime=calculatequeuetime(nowkitchen.queue, ) ;
-      // pizzas from products
-      console.log('beforekitchen', nowkitchen)
-      console.log('productid',productid);
+      let nqueue = [...tqueue]
+      let nnow = Date.now()
+      // sort queue
+      nqueue.sort((a,b) => (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0));
+      // mark jobs complete that have passed theri commitTime -assume complete
+      let count =0;
+      for (let x = 0; x < nqueue.length; x++) {
+        if (parseInt(nqueue[x].commitTime) < nnow) {
+          nqueue[x].status = 'complete'
+        }
+        else if (count < capacity) {
+          nqueue[x].status = 'inoven'
+        }
+        else { nqueue.status = 'active' }
+          {console.log('leave alone')}
+      }
+        let qtime;
+        let inprog = nqueue.filter(({ status }) => status !== 'complete').reduce((total, obj) => obj.quantity + total, 0)
+        if (inprog < capacity) {
+            qtime = avgcooktime;
+        }
+        else {
+            qtime = Math.ceil(avgcooktime * (inprog - capacity) / capacity) + 15;
+        }
+        console.log(`your pizza will ready in ${qtime} minutes`)
+
+      
       let newtime = Date.now() + qtime*60000;
-      let commtime = newtime.toString()
+      let commtime = toString(newtime);
+      console.log("commtime",qtime)
+
       const newjob = {
         orderId: orderid,
         priority: Date.now().toString(),  // convert to string 
         status: "active",
-        pizzas:["Combo","Vegetarian","MeatLovers"],
+        pizzas,
         commitTime: commtime
       };
+ 
+      const kitch = await Kitchen.findByIdAndUpdate(nowkitchen._id,
+        { $push: { queue: newjob }  },
+        { new: true }
+        );
 
-      console.log('newjob',newjob)
-      const kitch = await Kitchen.findByIdAndUpdate(nowkitchen[0]._id,
-        { $push: { queue: newjob }  });
-
-      console.log('newkitch',kitch)
-      // Examine/update queue, create qtime, update order
-     
-      return kitch
+      //console.log('newkitch',kitch)
+       return kitch
    
-  },
+    },
 
     addOrder: async (parent, { products }, context) => {
-      console.log(context);
+      //console.log(context);
       console.log('order has been added')
       if (context.user) {
         const order = new Order({ products });
