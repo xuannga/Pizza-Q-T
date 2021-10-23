@@ -8,7 +8,7 @@ const resolvers = {
   Query: {
     kitchentoday: async (parent, ) =>{
       const nowkitchen = await Kitchen.findById(
-        "61738f38c83b2b79887c733c");
+        "616f9ae3b917bc0022b9f649");
       return nowkitchen 
     },
 
@@ -123,7 +123,7 @@ const resolvers = {
 
     updateKitchen: async (parent, {orderid, pizzas }, context) =>{
       const nowkitchen = await Kitchen.findById(
-        "61738f38c83b2b79887c733c");
+        "616f9ae3b917bc0022b9f649");
       let tqueue=nowkitchen.queue;
       console.log("tqueue",tqueue)
       const capacity=20;
