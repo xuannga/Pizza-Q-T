@@ -7,9 +7,10 @@ import mockdata from '../utils/mockdata.json';
 import Moment from 'moment'
 import { ADD_ORDER_KITCHEN} from '../utils/mutations';
 import {ADD_ORDER} from '../utils/mutations'
-import  '../../utils/table.css'
+import  '../utils/table.css'
 
 function Table ({columns, data}) {
+ 
     const {
         getTableProps,
         getTableBodyProps,
@@ -49,8 +50,21 @@ function Table ({columns, data}) {
     )
 }
 
-function KitchenQ() {
+  function KitchenQ() {
+   const {loading, data:quedata} = useQuery(QUERY_KITCHENQUEUE);
+  
+   const  bqueue=quedata.kitchentoday.queue;
+   console.log(quedata)
+  
+  // const bqueue=quedata.kitchentoday.queue;
+  //  for (let x = 0;x < bqueue.length; x++) {
+  //     bqueue[x].pizzas = bqueue[x].pizzas.join()
+  // }
+  
+  // orderId: '6171b2a1e69ffd25fcda4673', priority: '1634880161291', commitTime: '1634881061291', pizzas: Array(3
 
+  // console.log(bqueue[0] )
+  // console.log('from the nqueue kitchen',quedata.kitchentoday.queue[0].pizzas.join() )
     //Define columns
     const columns = React.useMemo(() => [
         {
@@ -59,16 +73,16 @@ function KitchenQ() {
         },
         {
             Header: 'Order #',
-            accessor: 'orderNum'
+            accessor: 'orderId'
         },
         {
             Header: 'Item Ordered',
-            accessor: 'pizzas'
+            accessor: 'piz'
         },
         
         {
             Header: 'Status',
-            accessor: 'status'
+            accessor: 'statuscommitTime'
         }
 
     ])
