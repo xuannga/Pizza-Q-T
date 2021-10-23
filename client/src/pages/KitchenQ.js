@@ -72,6 +72,7 @@ function Table ({columns, data}) {
         else{
          ddata = mockdata;
         }
+
       // console.log(ddata)
       // return ddata
           // }
