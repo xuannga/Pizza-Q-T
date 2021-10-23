@@ -31,3 +31,7 @@ Friday Night is Pizza night and we want our delivery on time !  As a small time 
 ## Screen Shot
 
 ![homepage](/client/public/images/homepageSS.jpg)
+
+## Link to Video Walkthrough
+
+[Video walkthrough](https://watch.screencastify.com/v/DElIUmZb6AUI6gN5Q28B)
