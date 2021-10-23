@@ -101,11 +101,6 @@ function Table ({columns, data}) {
      
     const data = React.useMemo(() => ddata)
 
-            Header: 'Status',
-            accessor: 'commitTime'
-        }
-
-    ])
 
     return(
         <>
