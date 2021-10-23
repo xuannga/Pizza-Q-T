@@ -17,13 +17,15 @@ export const QUERY_PRODUCTS = gql`
 `;
 
 export const QUERY_KITCHENQUEUE = gql`
-   {
-    kitchens {
+  query getkitchen($_id: ID) {
+    kitchentoday(_id: $_id) {
+      _id
       date
       queue {
         orderId
         priority
         commitTime
+        pizzas
       }
     }
   }

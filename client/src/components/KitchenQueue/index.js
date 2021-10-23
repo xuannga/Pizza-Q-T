@@ -26,13 +26,13 @@ const COLUMNS = [
 ]
 
  const KitchenQueue = () => {
-  // const {loading, data:quedata} = useQuery(QUERY_KITCHENQUEUE,{
-  //   variables: { _id: "617053975ef3373254013c90" },
+  const {loading, data:quedata} = useQuery(QUERY_KITCHENQUEUE,{
+    variables: { _id: "617053975ef3373254013c90" },
 
-  // })
-  // console.log('kitchenqueue',quedata.kitchentoday.queue)
-  // let nowqueue = quedata.kitchentoday.queue.map((e)=>(e.pizzas.toString()) );
-  // console.log(nowqueue)
+  })
+  console.log('kitchenqueue',quedata.kitchentoday.queue)
+  let nowqueue = quedata.kitchentoday.queue.map((e)=>(e.pizzas.toString()) );
+  console.log(nowqueue)
   const columns = useMemo(()=> COLUMNS,[])
   const data = useMemo(()=> MOCK_DATA,[])
 

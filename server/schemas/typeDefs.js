@@ -19,9 +19,9 @@ const typeDefs = gql`
   type Job {
     _id: ID
     orderId: ID
-    lastupdated: String
-    priority: Int
-    quantity: Int
+    status: String
+    priority: String
+    pizzas: [String]
     commitTime: String
   }
 
@@ -67,7 +67,7 @@ const typeDefs = gql`
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
     kitchens(_id: ID): Kitchen
-    kitchentoday: Kitchen
+    kitchentoday(_id: ID): Kitchen
   }
 
   type Mutation {
@@ -78,7 +78,7 @@ const typeDefs = gql`
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
     # addOrderKitchen(kitchenorder: Kitchenorder! ): Kitchen
-    updateKitchen(orderid: ID, products: [ID]): Kitchen
+    updateKitchen(orderid: ID): Kitchen
   }
 `;
 

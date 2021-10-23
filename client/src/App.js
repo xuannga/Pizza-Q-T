@@ -17,6 +17,7 @@ import Nav from './components/Nav';
 import { StoreProvider } from './utils/GlobalState';
 import Success from './pages/Success';
 import UserHistory from './pages/UserHistory';
+import KitchenQ from './pages/KitchenQ';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -51,12 +52,14 @@ function App() {
               <Route exact path="/success" component={Success} />
               <Route exact path="/userHistory" component={UserHistory} />
               <Route exact path="/products/:id" component={Detail} />
+              <Route exact path="/kitchenQ" component={KitchenQ}/>
               <Route component={NoMatch} />
             </Switch>
           </StoreProvider>
-        </div>
+            </div>
       </Router>
     </ApolloProvider>
+
   );
 }
 
