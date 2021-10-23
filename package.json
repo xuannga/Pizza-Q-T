@@ -15,5 +15,10 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "@rmwc/data-table": "^6.1.4",
+    "moment": "^2.29.1",
+    "react-table": "^7.7.0"
   }
 }
