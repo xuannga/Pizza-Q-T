@@ -8,7 +8,7 @@ const resolvers = {
   Query: {
     kitchentoday: async (parent, ) =>{
       const nowkitchen = await Kitchen.findById(
-        "617248ec601a354b8c6fb5f5");
+        "61738f38c83b2b79887c733c");
       return nowkitchen 
     },
 
@@ -123,9 +123,9 @@ const resolvers = {
 
     updateKitchen: async (parent, {orderid, pizzas }, context) =>{
       const nowkitchen = await Kitchen.findById(
-        "617248ec601a354b8c6fb5f5");
+        "61738f38c83b2b79887c733c");
       let tqueue=nowkitchen.queue;
-
+      console.log("tqueue",tqueue)
       const capacity=20;
       const avgcooktime = 15; 
       
@@ -135,30 +135,37 @@ const resolvers = {
       nqueue.sort((a,b) => (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0));
       // mark jobs complete that have passed theri commitTime -assume complete
       let count =0;
+      let pizzacount =0;
       for (let x = 0; x < nqueue.length; x++) {
         if (parseInt(nqueue[x].commitTime) < nnow) {
           nqueue[x].status = 'complete'
         }
         else if (count < capacity) {
           nqueue[x].status = 'inoven'
+          pizzacount+=nqueue[x].pizzas[0].length
+          console.log(nqueue[x].pizzas[0].length)
         }
-        else { nqueue.status = 'active' }
-          {console.log('leave alone')}
+        else { nqueue.status = 'active'
+        pizzacount+=nqueue[x].pizzas[0].length
+                }
       }
-        let qtime;
+        let qtime; 
+        console.log("pizzacount",pizzacount)
         let inprog = nqueue.filter(({ status }) => status !== 'complete').reduce((total, obj) => obj.quantity + total, 0)
-        if (inprog < capacity) {
+        console.log(inprog)
+        if (pizzacount < capacity) {
             qtime = avgcooktime;
         }
         else {
-            qtime = Math.ceil(avgcooktime * (inprog - capacity) / capacity) + 15;
+            qtime = Math.ceil(avgcooktime * (pizzacount - capacity) / capacity) + 15;
         }
-        console.log(`your pizza will ready in ${qtime} minutes`)
-
+        // console.log(`your pizza will ready in ${qtime} minutes`)
+        
+        console.log('qtime', qtime)
       
       let newtime = Date.now() + qtime*60000;
       let commtime = toString(newtime);
-      console.log("commtime",qtime)
+      console.log("commtime",newtime)
 
       const newjob = {
         orderId: orderid,

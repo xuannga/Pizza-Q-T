@@ -80,8 +80,9 @@ const Cart = () => {
       variables: { products: productIds },
     });
 
+    // add Order, prior to stripe event and connect
+    // to Kitchen
     const  {data} = await addOrder({ variables: { products: productIds } });
-    console.log('newOrder', data)
    
     let pizzas = data.addOrder.products.map((e)=> e._id)
     let stringpizzas = pizzas.toString()

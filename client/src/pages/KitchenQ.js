@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTable } from 'react-table';
 import { useQuery } from '@apollo/client';
@@ -8,10 +8,11 @@ import Moment from 'moment';
 import { ADD_ORDER_KITCHEN} from '../utils/mutations';
 import {ADD_ORDER} from '../utils/mutations'
 import  '../utils/table.css'
+import { useStoreContext } from '../utils/GlobalState';
 import moment from 'moment';
 
 function Table ({columns, data}) {
-    const {
+  const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
@@ -23,6 +24,7 @@ function Table ({columns, data}) {
       })
 
     return (
+      
         <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -50,9 +52,30 @@ function Table ({columns, data}) {
     )
 }
 
-function KitchenQ() {
+  function KitchenQ() {
 
-  
+      let {loading, data:quedata} = useQuery(QUERY_KITCHENQUEUE);
+      const  bqueue = quedata?.kitchentoday.queue|| [];
+      let ddata=[]
+      if(bqueue){
+      console.log(quedata) 
+      console.log(bqueue)
+      
+      for (let x = 0;x < bqueue.length; x++) {
+                ddata[x]={
+                  priority: bqueue[x].priority,
+                  orderId: bqueue[x].orderId,
+                  pizzas: bqueue[x].pizzas[0]}
+            }
+          }
+   
+        else{
+         ddata = mockdata;
+        }
+      // console.log(ddata)
+      // return ddata
+          // }
+
     //Define columns
     const columns = React.useMemo(() => [
         {
@@ -68,17 +91,24 @@ function KitchenQ() {
             accessor: 'pizzas'
         },
         {
+
+            Header: 'Priority',
+            accessor: 'priority'
+        }
+
+    ])
+     
+    const data = React.useMemo(() => ddata)
+
             Header: 'Status',
             accessor: 'commitTime'
         }
 
     ])
 
-    const data = React.useMemo(() => mockdata, []);
-
-
     return(
         <>
+
         <div className="container my-1">
         <Link to="/"> ← Back to Pizza Menus</Link>
         <br />
