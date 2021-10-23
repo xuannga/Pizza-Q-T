@@ -7,7 +7,7 @@ import mockdata from '../utils/mockdata.json';
 import Moment from 'moment'
 import { ADD_ORDER_KITCHEN} from '../utils/mutations';
 import {ADD_ORDER} from '../utils/mutations'
-import  '../../utils/table.css'
+import  '../utils/table.css'
 
 function Table ({columns, data}) {
     const {
@@ -51,6 +51,7 @@ function Table ({columns, data}) {
 
 function KitchenQ() {
 
+  
     //Define columns
     const columns = React.useMemo(() => [
         {
@@ -59,21 +60,20 @@ function KitchenQ() {
         },
         {
             Header: 'Order #',
-            accessor: 'orderNum'
+            accessor: 'orderId'
         },
         {
             Header: 'Item Ordered',
             accessor: 'pizzas'
         },
-        
         {
             Header: 'Status',
-            accessor: 'status'
+            accessor: 'commitTime'
         }
 
     ])
 
-    const data = React.useMemo(() => mockdata, [])
+    const data = React.useMemo(() => mockdata, []);
 
 
     return(
