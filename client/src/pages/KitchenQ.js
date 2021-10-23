@@ -5,11 +5,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_KITCHENQUEUE } from '../utils/queries';
 import mockdata from '../utils/mockdata.json';
 import Moment from 'moment';
-import { ADD_ORDER_KITCHEN} from '../utils/mutations';
-import {ADD_ORDER} from '../utils/mutations'
 import  '../utils/table.css'
-import { useStoreContext } from '../utils/GlobalState';
-import moment from 'moment';
 
 function Table ({columns, data}) {
   const {
