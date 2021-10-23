@@ -8,6 +8,7 @@ import Moment from 'moment';
 import { ADD_ORDER_KITCHEN} from '../utils/mutations';
 import {ADD_ORDER} from '../utils/mutations'
 import  '../utils/table.css'
+import moment from 'moment';
 
 function Table ({columns, data}) {
     const {
@@ -87,7 +88,7 @@ function KitchenQ() {
             </h1>
 
             <h3>
-                Orders currently in the kitchen today {Moment().format('MMM d, YYYY')}<br /><br />
+                Orders currently in the kitchen today {Moment().format('MMMM DD, YYYY')} <br /><br />
             </h3>
           
             <Table columns={columns} data={data}/>
