@@ -17,7 +17,6 @@ const typeDefs = gql`
   }
 
   type Job {
-    _id: ID
     orderId: ID
     status: String
     priority: String
@@ -55,7 +54,7 @@ const typeDefs = gql`
   }
 
   input Kitchenorder{
-    orderId: ID
+    orderId: String
     products:[ID]!
   }
 
@@ -67,7 +66,7 @@ const typeDefs = gql`
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
     kitchens(_id: ID): Kitchen
-    kitchentoday(_id: ID): Kitchen
+    kitchentoday: Kitchen
   }
 
   type Mutation {
@@ -77,8 +76,7 @@ const typeDefs = gql`
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
-    # addOrderKitchen(kitchenorder: Kitchenorder! ): Kitchen
-    updateKitchen(orderid: ID): Kitchen
+    updateKitchen(orderid: ID, pizzas: String): Kitchen
   }
 `;
 

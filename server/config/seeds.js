@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Product, Order, Category, Kitchen, Order } = require('../models');
+const { User, Product, Category, Kitchen, Order } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -7,9 +7,7 @@ db.once('open', async () => {
   const categories = await Category.insertMany([
     { name: 'Vegetarian' },
     { name: 'MeatLovers' },
-    { name: 'Combo' },
-    { name: 'Salads' },
-    { name: 'Drinks' }
+    { name: 'Combo' }
   ]);
 
   console.log('categories seeded');
@@ -48,27 +46,8 @@ db.once('open', async () => {
       price: 22.99,
       quantity: 100,
       size:"large"
-    },
-    {
-      name: 'Salads',
-      description:
-        'Spinach, Arugula, tomatoes, Cranberries, and your choice of dressing : ranch, 1000 island or blue cheese',
-      image: 'salads.jpg',
-      category: categories[3]._id,
-      price: 2.99,
-      quantity: 500,
-      size:"large"
-    },
-    {
-      name: 'Soda',
-      description:
-        'Soft drinks, Sparkling waters and Cold Teas',
-      image: 'beverages.jpg',
-      category: categories[4]._id,
-      price: 0.99,
-      quantity: 500,
-      size:"large"
     }
+    
   ]);
 
   console.log('products seeded');
